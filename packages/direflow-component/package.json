@@ -1,5 +1,5 @@
 {
-  "name": "direflow-component",
+  "name": "@fourth/direflow-component",
   "version": "3.5.4",
   "description": "Create Web Components using React",
   "main": "dist/index.js",
