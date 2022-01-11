@@ -1,5 +1,5 @@
 {
-  "name": "direflow-cli",
+  "name": "@fourth/direflow-cli",
   "version": "3.5.4",
   "description": "Official CLI for Direflow",
   "main": "dist/index.js",
