@@ -9,6 +9,9 @@ import { EventProvider } from './components/EventContext';
 import { PluginRegistrator } from './types/PluginRegistrator';
 import registeredPlugins from './plugins/plugins';
 import getSerialized from './helpers/getSerialized';
+import {Provider as StyletronProvider} from 'styletron-react';
+import {Client as Styletron} from 'styletron-engine-atomic';
+import {LightTheme, BaseProvider} from 'baseui';
 
 class WebComponentFactory {
   constructor(
@@ -236,10 +239,18 @@ class WebComponentFactory {
           </EventProvider>
         );
 
+        const engine = new Styletron();
+
         const [applicationWithPlugins, shadowChildren] = this.applyPlugins(application);
 
         if (!factory.shadow) {
-          ReactDOM.render(applicationWithPlugins, this);
+          ReactDOM.render(
+            <StyletronProvider value={engine}>
+              <BaseProvider theme={LightTheme}>
+                {applicationWithPlugins}
+              </BaseProvider>
+            </StyletronProvider>,
+            this);
           return;
         }
 
@@ -250,7 +261,15 @@ class WebComponentFactory {
         }
 
         const root = createProxyRoot(this, shadowChildren);
-        ReactDOM.render(<root.open>{applicationWithPlugins}</root.open>, this);
+        ReactDOM.render(
+          <root.open>
+            <StyletronProvider value={engine}>
+              <BaseProvider theme={LightTheme}>
+                {applicationWithPlugins}
+              </BaseProvider>
+            </StyletronProvider>
+          </root.open>,
+          this);
 
         if (currentChildren) {
           currentChildren.forEach((child: Node) => this.append(child));
