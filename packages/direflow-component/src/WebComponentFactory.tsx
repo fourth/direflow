@@ -3,15 +3,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import clonedeep from 'lodash.clonedeep';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { Client as Styletron } from 'styletron-engine-atomic';
+import { LightTheme, BaseProvider } from 'baseui';
 import createProxyRoot from './helpers/proxyRoot';
 import { IDireflowPlugin } from './types/DireflowConfig';
 import { EventProvider } from './components/EventContext';
 import { PluginRegistrator } from './types/PluginRegistrator';
 import registeredPlugins from './plugins/plugins';
 import getSerialized from './helpers/getSerialized';
-import {Provider as StyletronProvider} from 'styletron-react';
-import {Client as Styletron} from 'styletron-engine-atomic';
-import {LightTheme, BaseProvider} from 'baseui';
 
 class WebComponentFactory {
   constructor(
