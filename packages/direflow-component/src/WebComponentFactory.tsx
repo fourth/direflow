@@ -233,24 +233,19 @@ class WebComponentFactory {
        */
       public mountReactApp(options?: { initial: boolean }) {
         const anonymousSlot = factory.anonymousSlot ? React.createElement('slot') : undefined;
-        const application = (
-          <EventProvider value={this.eventDispatcher}>
-            {React.createElement(factory.rootComponent, this.reactProps(), anonymousSlot)}
-          </EventProvider>
-        );
+        // const application = (
+        //   <EventProvider value={this.eventDispatcher}>
+        //     {React.createElement(factory.rootComponent, this.reactProps(), anonymousSlot)}
+        //   </EventProvider>
+        // );
 
-        const engine = new Styletron();
-
-        const [applicationWithPlugins, shadowChildren] = this.applyPlugins(application);
+        // const [applicationWithPlugins, shadowChildren] = this.applyPlugins(application);
 
         if (!factory.shadow) {
-          ReactDOM.render(
-            <StyletronProvider value={engine}>
-              <BaseProvider theme={LightTheme}>
-                {applicationWithPlugins}
-              </BaseProvider>
-            </StyletronProvider>,
-            this);
+          const props = this.reactProps();
+          props.eventDispatcher = this.eventDispatcher;
+          ReactDOM.render(React.createElement(factory.rootComponent, props, anonymousSlot), this);
+
           return;
         }
 
@@ -260,16 +255,18 @@ class WebComponentFactory {
           currentChildren = Array.from(this.children).map((child: Node) => child.cloneNode(true));
         }
 
-        const root = createProxyRoot(this, shadowChildren);
-        ReactDOM.render(
-          <root.open>
-            <StyletronProvider value={engine}>
-              <BaseProvider theme={LightTheme}>
-                {applicationWithPlugins}
-              </BaseProvider>
-            </StyletronProvider>
-          </root.open>,
-          this);
+        // const root = createProxyRoot(this, shadowChildren);
+        // ReactDOM.render(
+        //   <root.open>
+        //     <StyletronProvider value={engine}>
+        //       <BaseProvider theme={LightTheme}>
+        //         <EventProvider value={this.eventDispatcher}>
+        //           {React.createElement(factory.rootComponent, this.reactProps(), anonymousSlot)}
+        //         </EventProvider>
+        //       </BaseProvider>
+        //     </StyletronProvider>
+        //   </root.open>,
+        //   this);
 
         if (currentChildren) {
           currentChildren.forEach((child: Node) => this.append(child));
