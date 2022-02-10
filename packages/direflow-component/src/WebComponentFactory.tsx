@@ -241,6 +241,7 @@ class WebComponentFactory {
 
         // const [applicationWithPlugins, shadowChildren] = this.applyPlugins(application);
 
+        // const root = createProxyRoot(this, []);
         if (!factory.shadow) {
           const props = this.reactProps();
           props.eventDispatcher = this.eventDispatcher;
